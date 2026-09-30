@@ -1,7 +1,5 @@
 # Environment / credentials
 .env
-*.env
-!.env.example
 liquibase.properties
 
 # Maven

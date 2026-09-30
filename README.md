@@ -26,24 +26,24 @@ Minimal standalone Maven + Liquibase project targeting Microsoft SQL Server.
 
    `.env` is listed in `.gitignore`, so credentials stay out of version control.
 
-2. Start SQL Server:
+2. Load the variables into your shell (Docker Compose and the Maven build both read them from the environment):
+
+   ```bash
+   set -a && source .env && set +a
+   ```
+
+3. Start SQL Server:
 
    ```bash
    docker compose up -d
    ```
 
-3. Create the target database once the container is healthy:
+4. Create the target database once the container is healthy:
 
    ```bash
    docker compose exec sqlserver /opt/mssql-tools18/bin/sqlcmd \
      -S localhost -U sa -P "$MSSQL_SA_PASSWORD" -C \
      -Q "IF DB_ID('liquibase_demo') IS NULL CREATE DATABASE liquibase_demo"
-   ```
-
-4. Export the Liquibase variables into your shell (the Maven build reads them from the environment):
-
-   ```bash
-   set -a && source .env && set +a
    ```
 
 ## Migration commands
