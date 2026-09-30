@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example</groupId>
+  <artifactId>test-liquibase-sql-server</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>test-liquibase-sql-server</name>
+  <description>Minimal standalone Liquibase project for Microsoft SQL Server</description>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <liquibase.version>4.29.2</liquibase.version>
+    <!-- Patched SQL Server JDBC driver (fixes CVE-2025-21538 / improper input validation) -->
+    <mssql.jdbc.version>12.10.2.jre11</mssql.jdbc.version>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-maven-plugin</artifactId>
+        <version>${liquibase.version}</version>
+        <configuration>
+          <!-- Credentials come from the environment, never from version control. -->
+          <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
+          <url>${env.LIQUIBASE_URL}</url>
+          <username>${env.LIQUIBASE_USERNAME}</username>
+          <password>${env.LIQUIBASE_PASSWORD}</password>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>${mssql.jdbc.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
+</project>

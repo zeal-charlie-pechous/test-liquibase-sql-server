@@ -1,0 +1,12 @@
+# Environment / credentials
+.env
+liquibase.properties
+
+# Maven
+target/
+
+# Editors / OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
